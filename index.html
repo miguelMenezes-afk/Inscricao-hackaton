@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Vance Legacy — Inscrição</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --g:#00ff41;--gd:#00aa2a;--gdk:#003b0f;
+  --a:#ffb300;--r:#ff2222;--c:#00e5ff;
+  --bg:#020d04;--sl:rgba(0,255,65,0.03);
+}
+body{
+  background:var(--bg);color:var(--g);
+  font-family:'Share Tech Mono',monospace;
+  min-height:100vh;padding:32px 20px 48px;
+  position:relative;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(to bottom,transparent 0px,transparent 3px,var(--sl) 3px,var(--sl) 4px);
+  pointer-events:none;z-index:100;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.9) 100%);
+  pointer-events:none;z-index:99;
+}
+@keyframes flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:0.85}94%{opacity:1}96%{opacity:0.9}97%{opacity:1}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes glow{0%,100%{text-shadow:0 0 8px var(--g),0 0 20px var(--gd)}50%{text-shadow:0 0 18px var(--g),0 0 45px var(--gd),0 0 70px rgba(0,255,65,0.2)}}
+@keyframes scanin{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes success-pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,229,255,0.4)}50%{box-shadow:0 0 20px 4px rgba(0,229,255,0.2)}}
+
+.wrap{max-width:720px;margin:0 auto;animation:flicker 9s infinite;}
+
+.hdr{border:1px solid var(--gd);padding:18px 28px;margin-bottom:28px;position:relative;background:rgba(0,255,65,0.018);animation:scanin .5s ease both;}
+.hdr::before{content:'■ ■ ■';position:absolute;top:-10px;left:16px;background:var(--bg);padding:0 8px;font-size:10px;color:var(--gd);letter-spacing:4px;}
+.hdr-title{font-family:'VT323',monospace;font-size:30px;letter-spacing:4px;animation:glow 3s ease-in-out infinite;text-align:center;}
+.hdr-sub{font-size:11px;color:var(--gd);text-align:center;margin-top:5px;letter-spacing:2px;}
+
+.sbar{display:flex;justify-content:space-between;font-size:10px;color:var(--gd);margin-bottom:24px;padding:0 2px;animation:scanin .5s .1s ease both;opacity:0;animation-fill-mode:forwards;}
+
+.progress-wrap{border:1px solid var(--gd);padding:14px 20px;margin-bottom:24px;position:relative;background:rgba(0,255,65,0.01);animation:scanin .5s .15s ease both;opacity:0;animation-fill-mode:forwards;}
+.progress-wrap::before{content:'PROTOCOLO DE IDENTIFICAÇÃO — PROGRESSO';position:absolute;top:-9px;left:12px;background:var(--bg);padding:0 8px;font-size:9px;color:var(--gd);letter-spacing:1px;}
+.prog-bar-bg{height:3px;background:var(--gdk);margin-top:6px;position:relative;}
+.prog-bar{height:3px;background:var(--g);width:0%;transition:width .5s ease;box-shadow:0 0 8px var(--g);}
+.prog-label{font-size:10px;color:var(--gd);letter-spacing:2px;display:flex;justify-content:space-between;margin-bottom:4px;}
+.prog-label span{color:var(--a);}
+
+.section{border:1px solid var(--gd);padding:20px 24px;margin-bottom:20px;position:relative;background:rgba(0,255,65,0.01);animation:scanin .5s ease both;opacity:0;animation-fill-mode:forwards;}
+.section::before{position:absolute;top:-9px;left:12px;background:var(--bg);padding:0 8px;font-size:9px;color:var(--a);letter-spacing:1px;}
+.s1{animation-delay:.2s}.s2{animation-delay:.3s}.s3{animation-delay:.4s}.s4{animation-delay:.5s}
+.s1::before{content:'MÓDULO 01 — IDENTIFICAÇÃO DO OPERADOR';}
+.s2::before{content:'MÓDULO 02 — PERFIL ACADÊMICO';}
+.s3::before{content:'MÓDULO 03 — FORMAÇÃO DE EQUIPE';}
+.s4::before{content:'MÓDULO 04 — NÍVEL DE ACESSO TÉCNICO';}
+
+.field{margin-bottom:20px;}
+.field:last-child{margin-bottom:0;}
+.field-label{font-size:10px;color:var(--gd);letter-spacing:2px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.field-label .req{color:var(--r);font-size:12px;}
+.field-label .opt{color:var(--gdk);font-size:9px;}
+
+.input-row{display:flex;align-items:center;gap:10px;}
+.prompt{font-family:'VT323',monospace;font-size:20px;color:var(--gd);white-space:nowrap;}
+input[type=text],input[type=email],input[type=tel]{
+  flex:1;background:transparent;border:none;border-bottom:1px solid var(--gd);
+  outline:none;color:var(--g);font-family:'Share Tech Mono',monospace;
+  font-size:15px;letter-spacing:2px;padding:7px 4px;caret-color:var(--g);
+  transition:border-color .2s;
+}
+input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus{border-color:var(--g);}
+input::placeholder{color:var(--gdk);letter-spacing:1px;}
+
+.radio-grid{display:grid;gap:8px;}
+.radio-grid.cols-2{grid-template-columns:1fr 1fr;}
+.radio-opt{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--gdk);cursor:pointer;transition:all .15s;position:relative;}
+.radio-opt:hover{border-color:var(--gd);background:rgba(0,255,65,0.03);}
+.radio-opt.selected{border-color:var(--g);background:rgba(0,255,65,0.06);}
+.radio-opt input[type=radio]{display:none;}
+.radio-box{width:14px;height:14px;border:1px solid var(--gd);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.radio-opt.selected .radio-box{border-color:var(--g);background:var(--g);}
+.radio-inner{width:6px;height:6px;background:var(--bg);display:none;}
+.radio-opt.selected .radio-inner{display:block;}
+.radio-text{font-size:12px;letter-spacing:1px;color:#aaa;transition:color .15s;}
+.radio-opt.selected .radio-text{color:var(--g);}
+.radio-tag{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--gd);letter-spacing:1px;}
+
+.submit-area{margin-top:8px;animation:scanin .5s .55s ease both;opacity:0;animation-fill-mode:forwards;}
+.submit-btn{
+  width:100%;background:transparent;border:1px solid var(--gd);
+  color:var(--g);font-family:'Share Tech Mono',monospace;font-size:14px;
+  letter-spacing:4px;padding:14px;cursor:pointer;transition:all .2s;text-transform:uppercase;
+}
+.submit-btn:hover{background:rgba(0,255,65,0.07);border-color:var(--g);box-shadow:0 0 20px rgba(0,255,65,0.15);}
+.submit-btn:active{transform:scale(0.99);}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed;}
+
+.err-msg{font-size:10px;color:var(--r);letter-spacing:1px;margin-top:6px;display:none;}
+.field.has-error .err-msg{display:block;}
+.field.has-error input{border-color:var(--r);}
+
+.sending-msg{text-align:center;color:var(--gd);font-size:12px;letter-spacing:3px;padding:12px;display:none;}
+
+#success-screen{display:none;border:1px solid var(--c);padding:40px;text-align:center;background:rgba(0,229,255,0.03);animation:success-pulse 2s ease-in-out infinite;margin-top:8px;}
+#success-screen .ok-title{font-family:'VT323',monospace;font-size:40px;letter-spacing:6px;color:var(--c);animation:glow 2s ease-in-out infinite;}
+#success-screen .ok-sub{font-size:12px;color:rgba(0,229,255,0.6);letter-spacing:2px;margin-top:16px;line-height:2.2;}
+#success-screen .ok-name{color:var(--c);font-size:20px;}
+#success-screen .reg{font-size:10px;color:var(--gd);margin-top:10px;}
+
+.footer{margin-top:28px;font-size:9px;color:var(--gdk);text-align:center;letter-spacing:2px;}
+.cursor{display:inline-block;width:9px;height:14px;background:var(--g);animation:blink 1s step-end infinite;vertical-align:middle;margin-left:3px;}
+
+@media(max-width:560px){.radio-grid.cols-2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hdr">
+  <div class="hdr-title">THE VANCE LEGACY — INSCRIÇÃO</div>
+  <div class="hdr-sub">HACKATHON · UNILINS · 2026 · PROTOCOLO DE REGISTRO ATIVO</div>
+</div>
+
+<div class="sbar">
+  <span>CONEXÃO: ESTABELECIDA</span>
+  <span id="clk">--:--:--</span>
+  <span>SERVIDOR: REGISTRO_PÚBLICO</span>
+</div>
+
+<div class="progress-wrap">
+  <div class="prog-label"><span>CAMPOS PREENCHIDOS</span><span id="prog-pct">0%</span></div>
+  <div class="prog-bar-bg"><div class="prog-bar" id="prog-bar"></div></div>
+</div>
+
+<form id="form" novalidate>
+
+  <!-- MÓDULO 01 -->
+  <div class="section s1">
+    <div class="field" id="f-nome">
+      <div class="field-label">NOME COMPLETO <span class="req">*</span></div>
+      <div class="input-row">
+        <span class="prompt">SRV &gt;</span>
+        <input type="text" id="nome" name="nome" placeholder="identificação do operador..." autocomplete="off" spellcheck="false"/>
+      </div>
+      <div class="err-msg">&gt;&gt; CAMPO OBRIGATÓRIO — IDENTIFICAÇÃO INVÁLIDA</div>
+    </div>
+    <div class="field" id="f-email">
+      <div class="field-label">E-MAIL <span class="req">*</span></div>
+      <div class="input-row">
+        <span class="prompt">SRV &gt;</span>
+        <input type="email" id="email" name="email" placeholder="endereço de comunicação segura..." autocomplete="off" spellcheck="false"/>
+      </div>
+      <div class="err-msg">&gt;&gt; E-MAIL INVÁLIDO — PROTOCOLO DE AUTENTICAÇÃO FALHOU</div>
+    </div>
+    <div class="field" id="f-wpp">
+      <div class="field-label">WHATSAPP <span class="opt">[OPCIONAL — COM DDD]</span></div>
+      <div class="input-row">
+        <span class="prompt">SRV &gt;</span>
+        <input type="tel" id="wpp" name="whatsapp" placeholder="canal de comunicação secundário..." autocomplete="off"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÓDULO 02 -->
+  <div class="section s2">
+    <div class="field" id="f-perfil">
+      <div class="field-label">VOCÊ É... <span class="req">*</span></div>
+      <div class="radio-grid" id="rg-perfil">
+        <div class="radio-opt" data-group="perfil" data-val="Engenharia de Software — UNILINS">
+          <input type="radio" name="perfil" value="Engenharia de Software — UNILINS"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">ALUNO DE ENGENHARIA DE SOFTWARE — UNILINS</span>
+        </div>
+        <div class="radio-opt" data-group="perfil" data-val="Outro curso — UNILINS">
+          <input type="radio" name="perfil" value="Outro curso — UNILINS"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">ALUNO DE OUTRO CURSO — UNILINS</span>
+        </div>
+        <div class="radio-opt" data-group="perfil" data-val="Ensino Médio">
+          <input type="radio" name="perfil" value="Ensino Médio"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">ESTUDANTE DO ENSINO MÉDIO</span>
+        </div>
+        <div class="radio-opt" data-group="perfil" data-val="Outro">
+          <input type="radio" name="perfil" value="Outro"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">OUTRO</span>
+        </div>
+      </div>
+      <div class="err-msg">&gt;&gt; SELEÇÃO OBRIGATÓRIA — PERFIL NÃO IDENTIFICADO</div>
+    </div>
+    <div class="field" id="f-semestre">
+      <div class="field-label">SEMESTRE / ANO <span class="req">*</span></div>
+      <div class="radio-grid cols-2" id="rg-semestre">
+        <div class="radio-opt" data-group="semestre" data-val="1º ao 2º semestre">
+          <input type="radio" name="semestre" value="1º ao 2º semestre"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">1º AO 2º SEMESTRE</span>
+        </div>
+        <div class="radio-opt" data-group="semestre" data-val="3º ao 4º semestre">
+          <input type="radio" name="semestre" value="3º ao 4º semestre"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">3º AO 4º SEMESTRE</span>
+        </div>
+        <div class="radio-opt" data-group="semestre" data-val="5º ao 6º semestre">
+          <input type="radio" name="semestre" value="5º ao 6º semestre"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">5º AO 6º SEMESTRE</span>
+        </div>
+        <div class="radio-opt" data-group="semestre" data-val="7º semestre ou acima">
+          <input type="radio" name="semestre" value="7º semestre ou acima"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">7º OU ACIMA</span>
+        </div>
+        <div class="radio-opt" data-group="semestre" data-val="Ensino Médio / N/A">
+          <input type="radio" name="semestre" value="Ensino Médio / N/A"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">ENSINO MÉDIO / N/A</span>
+        </div>
+      </div>
+      <div class="err-msg">&gt;&gt; SELEÇÃO OBRIGATÓRIA — NÍVEL ACADÊMICO NÃO IDENTIFICADO</div>
+    </div>
+  </div>
+
+  <!-- MÓDULO 03 -->
+  <div class="section s3">
+    <div class="field" id="f-equipe">
+      <div class="field-label">STATUS DE EQUIPE <span class="req">*</span></div>
+      <div class="radio-grid" id="rg-equipe">
+        <div class="radio-opt" data-group="equipe" data-val="Já tenho parceiro(a)">
+          <input type="radio" name="equipe" value="Já tenho parceiro(a)"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">JÁ TENHO PARCEIRO(A) CONFIRMADO(A)</span>
+          <span class="radio-tag">DUPLA</span>
+        </div>
+        <div class="radio-opt" data-group="equipe" data-val="Busco parceiro(a)">
+          <input type="radio" name="equipe" value="Busco parceiro(a)"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">NÃO TENHO PARCEIRO — BUSCO UM</span>
+          <span class="radio-tag">OPEN</span>
+        </div>
+        <div class="radio-opt" data-group="equipe" data-val="Participação individual">
+          <input type="radio" name="equipe" value="Participação individual"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">QUERO PARTICIPAR INDIVIDUALMENTE</span>
+          <span class="radio-tag">SOLO</span>
+        </div>
+      </div>
+      <div class="err-msg">&gt;&gt; SELEÇÃO OBRIGATÓRIA — STATUS DE EQUIPE INDEFINIDO</div>
+    </div>
+  </div>
+
+  <!-- MÓDULO 04 -->
+  <div class="section s4">
+    <div class="field" id="f-nivel">
+      <div class="field-label">NÍVEL TÉCNICO <span class="req">*</span></div>
+      <div class="radio-grid" id="rg-nivel">
+        <div class="radio-opt" data-group="nivel" data-val="Iniciante">
+          <input type="radio" name="nivel" value="Iniciante"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">INICIANTE — NUNCA PROGRAMEI OU ESTOU COMEÇANDO</span>
+          <span class="radio-tag">NV.1</span>
+        </div>
+        <div class="radio-opt" data-group="nivel" data-val="Básico">
+          <input type="radio" name="nivel" value="Básico"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">BÁSICO — JÁ ESCREVI ALGUNS PROGRAMAS SIMPLES</span>
+          <span class="radio-tag">NV.2</span>
+        </div>
+        <div class="radio-opt" data-group="nivel" data-val="Intermediário">
+          <input type="radio" name="nivel" value="Intermediário"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">INTERMEDIÁRIO — ME VIRO BEM EM PELO MENOS UMA LINGUAGEM</span>
+          <span class="radio-tag">NV.3</span>
+        </div>
+        <div class="radio-opt" data-group="nivel" data-val="Avançado">
+          <input type="radio" name="nivel" value="Avançado"/>
+          <div class="radio-box"><div class="radio-inner"></div></div>
+          <span class="radio-text">AVANÇADO — PROGRAMO COM FREQUÊNCIA E CONHEÇO ALGORITMOS</span>
+          <span class="radio-tag">NV.4</span>
+        </div>
+      </div>
+      <div class="err-msg">&gt;&gt; SELEÇÃO OBRIGATÓRIA — NÍVEL DE ACESSO NÃO DETERMINADO</div>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button type="submit" class="submit-btn" id="submit-btn">
+      ▶ CONFIRMAR INSCRIÇÃO NO PROTOCOLO <span class="cursor"></span>
+    </button>
+    <div class="sending-msg" id="sending-msg">
+      &gt;&gt;&gt; TRANSMITINDO DADOS AO SERVIDOR... <span class="cursor"></span>
+    </div>
+  </div>
+
+</form>
+
+<!-- Tela de sucesso -->
+<div id="success-screen">
+  <div class="ok-title">INSCRIÇÃO CONFIRMADA</div>
+  <div class="ok-sub">
+    OPERADOR <span class="ok-name" id="ok-nome"></span> REGISTRADO COM SUCESSO<br>
+    AGUARDE COMUNICADO NO SEU E-MAIL<br>
+    DADOS SALVOS NO SERVIDOR DE REGISTROS
+  </div>
+  <div class="reg">VANCE OS · REGISTRO Nº <span id="reg-num"></span> · PROTOCOLO ATIVO</div>
+</div>
+
+<div class="footer">VANCE OS · HACKATHON UNILINS 2026 · ACESSO MONITORADO · SISTEMA ATIVO</div>
+
+</div>
+
+<script>
+  // ─── COLE AQUI A URL DO SEU APPS SCRIPT ───────────────────────────
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyy7JZIYZopiz58EKWcrMJTdYJ4kMC29fG-LrlQ3xuhDOHZMsYG478YiQWIcEsankQ-/exec";
+  // ──────────────────────────────────────────────────────────────────
+
+  // Relógio
+  const clk = document.getElementById('clk');
+  function tick() {
+    const n = new Date();
+    clk.textContent = [n.getHours(), n.getMinutes(), n.getSeconds()]
+      .map(v => String(v).padStart(2, '0')).join(':');
+  }
+  setInterval(tick, 1000); tick();
+
+  // Barra de progresso
+  function calcProg() {
+    let filled = 0;
+    if (document.getElementById('nome').value.trim()) filled++;
+    if (document.getElementById('email').value.trim()) filled++;
+    if (document.getElementById('wpp').value.trim()) filled++;
+    ['perfil','semestre','equipe','nivel'].forEach(g => {
+      if (document.querySelector(`[data-group="${g}"].selected`)) filled++;
+    });
+    const pct = Math.round(filled / 7 * 100);
+    document.getElementById('prog-bar').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '%';
+  }
+
+  document.querySelectorAll('input[type=text],input[type=email],input[type=tel]').forEach(el => {
+    el.addEventListener('input', () => {
+      el.closest('.field').classList.remove('has-error');
+      calcProg();
+    });
+  });
+
+  document.querySelectorAll('.radio-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const g = opt.dataset.group;
+      document.querySelectorAll(`[data-group="${g}"]`).forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      opt.querySelector('input[type=radio]').checked = true;
+      opt.closest('.field').classList.remove('has-error');
+      calcProg();
+    });
+  });
+
+  // Submit
+  document.getElementById('form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    let ok = true;
+
+    const nome  = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!nome)  { document.getElementById('f-nome').classList.add('has-error');  ok = false; }
+    if (!email || !emailRe.test(email)) { document.getElementById('f-email').classList.add('has-error'); ok = false; }
+
+    ['perfil','semestre','equipe','nivel'].forEach(g => {
+      if (!document.querySelector(`[data-group="${g}"].selected`)) {
+        document.getElementById('f-' + g).classList.add('has-error');
+        ok = false;
+      }
+    });
+
+    if (!ok) {
+      document.querySelector('.has-error').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Desabilita botão e mostra mensagem de envio
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.style.display = 'none';
+    document.getElementById('sending-msg').style.display = 'block';
+
+    // Monta os dados
+    const dados = {
+      nome:      nome,
+      email:     email,
+      whatsapp:  document.getElementById('wpp').value.trim() || '—',
+      perfil:    document.querySelector('[data-group="perfil"].selected')?.dataset.val   || '',
+      semestre:  document.querySelector('[data-group="semestre"].selected')?.dataset.val || '',
+      equipe:    document.querySelector('[data-group="equipe"].selected')?.dataset.val   || '',
+      nivel:     document.querySelector('[data-group="nivel"].selected')?.dataset.val    || '',
+      timestamp: new Date().toLocaleString('pt-BR')
+    };
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+    } catch(err) {
+      console.error('Erro ao enviar:', err);
+    }
+
+    // Mostra tela de sucesso independente do retorno (no-cors não permite ler a resposta)
+    document.getElementById('form').style.display = 'none';
+    document.getElementById('sending-msg').style.display = 'none';
+    const ss = document.getElementById('success-screen');
+    ss.style.display = 'block';
+    document.getElementById('ok-nome').textContent = nome.split(' ')[0].toUpperCase();
+    document.getElementById('reg-num').textContent =
+      Math.floor(Math.random() * 9000 + 1000) + '-' + Date.now().toString().slice(-4);
+    document.getElementById('prog-bar').style.width = '100%';
+    document.getElementById('prog-pct').textContent = '100%';
+    ss.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>
+</body>
+</html>
