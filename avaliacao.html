@@ -449,7 +449,7 @@ textarea::placeholder{color:var(--gdk);letter-spacing:1px;}
   setInterval(tick,1000);tick();
 
   // Contadores de caractere
-  [['gostou','c1'],['melhora','c2'],['mensagem','c3']].forEach(([id,cnt])=>{
+  ['melhora','c2'].forEach(([id,cnt])=>{
     document.getElementById(id).addEventListener('input',function(){
       document.getElementById(cnt).textContent=this.value.length;
       calcProg();
@@ -457,7 +457,7 @@ textarea::placeholder{color:var(--gdk);letter-spacing:1px;}
   });
 
   // Progresso — 7 campos obrigatórios
-  const OBR = ['exp','org','qual','dif','fase','volta','indica'];
+  const OBR = ['exp','qual','dif','fase','volta','indica'];
   function calcProg(){
     let filled = OBR.filter(g=>document.querySelector(`[data-group="${g}"].selected`)).length;
     const pct = Math.round(filled/OBR.length*100);
