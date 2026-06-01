@@ -449,7 +449,7 @@ textarea::placeholder{color:var(--gdk);letter-spacing:1px;}
   setInterval(tick,1000);tick();
 
   // Contadores de caractere
-  ['melhora','c2'].forEach(([id,cnt])=>{
+  [['melhora','c2']].forEach(([id,cnt])=>{
     document.getElementById(id).addEventListener('input',function(){
       document.getElementById(cnt).textContent=this.value.length;
       calcProg();
@@ -508,9 +508,9 @@ textarea::placeholder{color:var(--gdk);letter-spacing:1px;}
       fase_favorita:     val('fase'),
       participaria_novamente: val('volta'),
       indicaria:         val('indica'),
-      o_que_gostou:      document.getElementById('gostou').value.trim()||'—',
+      // o_que_gostou:      document.getElementById('gostou').value.trim()||'—',
       o_que_melhorar:    document.getElementById('melhora').value.trim()||'—',
-      mensagem_equipe:   document.getElementById('mensagem').value.trim()||'—',
+      // mensagem_equipe:   document.getElementById('mensagem').value.trim()||'—',
       timestamp:         new Date().toLocaleString('pt-BR')
     };
 
